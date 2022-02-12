@@ -58,6 +58,11 @@ reduceSingleNumber(compoundNumber) {
   }
 }
 
+// take a name
+// split it into an array of letters
+// convert each letter into a number
+// and add the numbers
+// then send the result to ReduceNumber()
 convertNameToNumber(firstName) {
   List firstNameList = firstName.split("");
   int firstNameNumber = 0;

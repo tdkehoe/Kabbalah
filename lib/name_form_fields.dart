@@ -32,6 +32,7 @@ class _FullNameState extends State<FullNameField> {
       // crossAxisAlignment: CrossAxisAlignment.center,
       shrinkWrap: true,
       padding: const EdgeInsets.all(8),
+      physics: ClampingScrollPhysics(),
       children: <Widget>[
         Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
@@ -81,63 +82,85 @@ class _FullNameState extends State<FullNameField> {
                 style: TextStyle(fontStyle: FontStyle.italic),
               )
             ])),
-        if (reducedCompoundNumber == 0) ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20)),
-          child: const Text('Get Fortune'),
-          onPressed: () {
-            setState(() {
-              String firstName = firstNameController.text;
-              int firstNameNumberResult = 0;
-              firstNameNumberResult = convertNameToNumber(firstName);
 
-              String middleName = middleNameController.text;
-              int middleNameNumberResult = 0;
-              middleNameNumberResult = convertNameToNumber(middleName);
+        // what if users have more than four names?
+        // if (reducedCompoundNumber == 0) ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //       textStyle: const TextStyle(fontSize: 20)),
+        //   child: const Text('Add Another Name'),
+        //   onPressed: () {
+        //
+        //   }, // onPressed()
+        // ),
 
-              String thirdName = thirdNameController.text;
-              int thirdNameNumberResult = 0;
-              thirdNameNumberResult = convertNameToNumber(thirdName);
+        if (reducedCompoundNumber == 0)
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 20)),
+            child: const Text('Get Fortune'),
+            onPressed: () {
+              setState(() {
+                String firstName = firstNameController.text;
+                int firstNameNumberResult = 0;
+                firstNameNumberResult = convertNameToNumber(firstName);
 
-              String lastName = lastNameController.text;
-              int lastNameNumberResult = 0;
-              lastNameNumberResult = convertNameToNumber(lastName);
+                String middleName = middleNameController.text;
+                int middleNameNumberResult = 0;
+                middleNameNumberResult = convertNameToNumber(middleName);
 
-              int compoundNumber = firstNameNumberResult + middleNameNumberResult + thirdNameNumberResult + lastNameNumberResult;
-              reducedCompoundNumber = reduceCompoundNumber(compoundNumber);
-              print('Reduced Compound Number: ' + reducedCompoundNumber.toString());
-              singleNumber = reduceSingleNumber(reducedCompoundNumber);
+                String thirdName = thirdNameController.text;
+                int thirdNameNumberResult = 0;
+                thirdNameNumberResult = convertNameToNumber(thirdName);
 
-              fortune = fortuneSwitchCase(reducedCompoundNumber);
-              print(fortune);
+                String lastName = lastNameController.text;
+                int lastNameNumberResult = 0;
+                lastNameNumberResult = convertNameToNumber(lastName);
 
-              personality = personalitySwitchCase(singleNumber);
-              print(personality);
-            }); // setState()
-          }, // onPressed()
-        ),
-        if (reducedCompoundNumber != 0) ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              textStyle: const TextStyle(fontSize: 20)),
-          child: const Text('Clear Form'),
-          onPressed: () {
-            setState(() {
-              firstNameController.text = "";
-              middleNameController.text = "";
-              thirdNameController.text = "";
-              lastNameController.text = "";
-              reducedCompoundNumber = 0;
-              singleNumber = 0;
-              fortune = null;
-              personality = null;
-            }); // setState()
-          }, // onPressed()
-        ),
+                int compoundNumber = firstNameNumberResult +
+                    middleNameNumberResult +
+                    thirdNameNumberResult +
+                    lastNameNumberResult;
+                reducedCompoundNumber = reduceCompoundNumber(compoundNumber);
+                print('Reduced Compound Number: ' +
+                    reducedCompoundNumber.toString());
+                singleNumber = reduceSingleNumber(reducedCompoundNumber);
+
+                fortune = fortuneSwitchCase(reducedCompoundNumber);
+                print(fortune);
+
+                personality = personalitySwitchCase(singleNumber);
+                print(personality);
+              }); // setState()
+            }, // onPressed()
+          ),
+        if (reducedCompoundNumber != 0)
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 20)),
+            child: const Text('Clear Form'),
+            onPressed: () {
+              setState(() {
+                firstNameController.text = "";
+                middleNameController.text = "";
+                thirdNameController.text = "";
+                lastNameController.text = "";
+                reducedCompoundNumber = 0;
+                singleNumber = 0;
+                fortune = null;
+                personality = null;
+              }); // setState()
+            }, // onPressed()
+          ),
         RichText(
           text: TextSpan(
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
-              if (reducedCompoundNumber != 0) TextSpan(text: 'Fortune Associated with the Compound Number ' + reducedCompoundNumber.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+              if (reducedCompoundNumber != 0)
+                TextSpan(
+                  text: 'Fortune Associated with the Compound Number ' +
+                      reducedCompoundNumber.toString(),
+                  style: Theme.of(context).textTheme.headline5,
+                ),
             ],
           ),
           textAlign: TextAlign.center,
@@ -146,7 +169,10 @@ class _FullNameState extends State<FullNameField> {
           text: TextSpan(
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
-              TextSpan(text: fortune),
+              TextSpan(
+                text: fortune,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ],
           ),
         ),
@@ -155,7 +181,12 @@ class _FullNameState extends State<FullNameField> {
           text: TextSpan(
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
-              if (singleNumber != 0) TextSpan(text: 'Personality Associated with the Single Number ' + singleNumber.toString(), style: TextStyle(fontWeight: FontWeight.bold)),
+              if (singleNumber != 0)
+                TextSpan(
+                  text: 'Personality Associated with the Single Number ' +
+                      singleNumber.toString(),
+                  style: Theme.of(context).textTheme.headline5,
+                ),
             ],
           ),
           textAlign: TextAlign.center,
@@ -164,11 +195,13 @@ class _FullNameState extends State<FullNameField> {
           text: TextSpan(
             style: DefaultTextStyle.of(context).style,
             children: <TextSpan>[
-              TextSpan(text: personality),
+              TextSpan(
+                text: personality,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
             ],
           ),
         ),
-
       ],
     );
   }
